@@ -7,7 +7,7 @@ volatile int sensorValue2 = 0; // valoarea citita de la al doilea senzor
 volatile int sensorValue3 = 0; // valoarea citita de la al treilea senzor
 
 const int buzzPin =  2;     // pinul digital pe care este conectat buzzer-ul
-
+bool buzz = false;
 
 void setup() {
   Serial.begin(9600); // configureaza portul serial la o rata de transfer de 9600 de biti pe secunda
@@ -33,32 +33,30 @@ void loop() {
   bool senzor2DepasestePrag = sensorValue2 > valoarePrag;
   bool senzor3DepasestePrag = sensorValue3 > valoarePrag;
 
-  if (senzor1DepasestePrag) {
-    digitalWrite(buzzPin, HIGH);
-    delay(100);
-    digitalWrite(buzzPin, LOW);
-  }else if (senzor2DepasestePrag){
-    digitalWrite(buzzPin, HIGH);
-    delay(100);
-    digitalWrite(buzzPin, LOW);
-    digitalWrite(buzzPin, HIGH);
-    delay(100);
-    digitalWrite(buzzPin, LOW);
-  }
-  else if (senzor3DepasestePrag){
-    digitalWrite(buzzPin, HIGH);
-    delay(100);
-    digitalWrite(buzzPin, LOW);
-    digitalWrite(buzzPin, HIGH);
-    delay(100);
-    digitalWrite(buzzPin, LOW);
-    digitalWrite(buzzPin, HIGH);
-    delay(100);
-    digitalWrite(buzzPin, LOW);
-  }
-  else {
-    digitalWrite(buzzPin, LOW);
+  if (senzor1DepasestePrag == false && senzor2DepasestePrag == false && senzor3DepasestePrag == false)
+    buzz = true;
+
+  if (senzor1DepasestePrag && buzz) {
+    soundBuzzer(1);
+    buzz = false;
+  } else if (senzor2DepasestePrag && buzz) {
+    soundBuzzer(2);
+    buzz = false;
+  } else if (senzor3DepasestePrag && buzz) {
+    soundBuzzer(3);
+    buzz = false;
   }
 
-  delay(100); 
+  delay(100);
+}
+
+void soundBuzzer(int numarBipe) {
+  for (int i = 0; i < numarBipe; i++) {
+    digitalWrite(buzzPin, HIGH);
+    delay(100);
+    digitalWrite(buzzPin, LOW);
+    if (i < numarBipe - 1) {
+      delay(100);
+    }
+  }
 }
