@@ -24,7 +24,6 @@ bg_image = Image.open('D:/practica/gui.jpg')
 bg_image = bg_image.resize((800, 500), Image.Resampling.LANCZOS)
 bg_photo = ImageTk.PhotoImage(bg_image)
 
-# create label with image
 bg_label = tk.Label(root, image=bg_photo)
 bg_label.pack(side='top',fill='y',expand=True)
 
