@@ -42,7 +42,7 @@ time.sleep(2)
 def animate(i, ser):
     global dataLists, selectedSensor  
 
-    ser.write(bytes(str(selectedSensor) + ";\n", 'ascii'))
+    #ser.write(bytes(str(selectedSensor) + ";\n", 'ascii'))
     arduinoData = ser.readline().decode('ascii').rstrip('\r\n')
     try:
         values = arduinoData.split(';')
@@ -82,11 +82,8 @@ def animate(i, ser):
 
     x = np.arange(len(y))
     for j in range(len(y)-1):
-        if colors[j] != colors[j+1]:
             ax.plot(x[j:j+2], y[j:j+2], color=colors[j], linewidth=2)
-        else:
-            ax.plot(x[j:j+2], y[j:j+2], color=colors[j], linewidth=2)
-
+        
     sensor = ''
     if selectedSensor == 0 :
         sensor="Sunet"
